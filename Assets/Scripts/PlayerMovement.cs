@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UIElements;
 using TMPro;
-using Photon.Realtime;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     public TMP_Text foodCounterText;
 
-    public float interval = 100f; 
+    public float interval = 1000f;
     private float timer = 0f;
 
     public float minX, minY, maxX, maxY;
@@ -37,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(true);
             Camera.main.GetComponent<CameraFollow>().player = gameObject.transform;
         }
-        
+
         size = 1;
         foodCounterText.text = size.ToString();
     }
@@ -48,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical") * speed;
 
         if (view.IsMine)
-        { 
+        {
             Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
             rigidbody2D.MovePosition(rigidbody2D.position + movement * speed * Time.fixedDeltaTime);
@@ -89,15 +85,15 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (size < otherPlayer.size && size > 0)
             {
-                if(timer >= interval)
+                if (timer >= interval)
                 {
                     size--;
                     foodCounterText.text = size.ToString();
                     gameObject.GetComponentInChildren<SpriteMask>().transform.localScale -= new Vector3(1, 1, 0);
                 }
                 else
-                { 
-                    timer += Time.fixedDeltaTime; 
+                {
+                    timer += Time.fixedDeltaTime;
                 }
             }
 
@@ -114,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Vector2 randomPosition = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
                 otherPlayer.gameObject.transform.localPosition = randomPosition;
-                otherPlayer.gameObject.GetComponentInChildren<SpriteMask>().transform.localScale = new Vector3(3,3,1);
+                otherPlayer.gameObject.GetComponentInChildren<SpriteMask>().transform.localScale = new Vector3(3, 3, 1);
                 otherPlayer.size = 1;
                 otherPlayer.foodCounterText.text = otherPlayer.size.ToString();
             }
