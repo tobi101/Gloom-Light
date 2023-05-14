@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,19 +24,24 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject player;
 
+    public Light2D light2D;
+
     void Start()
     {
         view = GetComponent<PhotonView>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        
 
         if (view.Owner.IsLocal)
         {
-            transform.GetChild(0).gameObject.SetActive(true);
             Camera.main.GetComponent<CameraFollow>().player = gameObject.transform;
         }
 
         size = 1;
         foodCounterText.text = size.ToString();
+
+        Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+        light2D.color = color;
     }
 
     void FixedUpdate()
